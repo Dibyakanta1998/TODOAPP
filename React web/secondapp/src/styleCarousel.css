@@ -1,0 +1,33 @@
+img#image {
+  width: 41em;
+  padding: 39px;
+  background-color: LAVENDER;
+  border-radius: 20px;
+  height: 24em;
+}
+
+button#prev {
+  width: 76px;
+  position: relative;
+  bottom: 220px;
+  right: 3px;
+  height: 42px;
+  border: none;
+  font-size: 32px;
+  background-color: thistle;
+  border-radius: 21px;
+  color: whitesmoke;
+}
+
+button#next {
+  width: 76px;
+  position: relative;
+  bottom: 220px;
+  left: 3px;
+  height: 42px;
+  border: none;
+  font-size: 32px;
+  background-color: thistle;
+  border-radius: 21px;
+  color: whitesmoke;
+}

@@ -1,0 +1,63 @@
+.container {
+  /* border: 1px solid black; */
+  width: 330px;
+  /* height: 225px; */
+  padding: 57px;
+  background-color: lightcoral;
+  border-radius: 22px;
+  /* margin-left: 690px; */
+}
+.heading {
+  padding: 11px;
+  font-size: 25px;
+}
+
+button.prev {
+  position: relative;
+  font-size: 21px;
+  width: 45px;
+  border: none;
+  bottom: 2px;
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+}
+button.next {
+  position: relative;
+  font-size: 21px;
+  width: 45px;
+  border: none;
+  bottom: 2px;
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+}
+span.month,
+span.year {
+  padding: 8px;
+}
+
+.weekdays {
+  padding: 6px;
+  position: relative;
+  right: 6px;
+}
+
+span.nameOfDay {
+  padding: 8px;
+}
+
+.dates {
+  padding: 13px;
+  display: flex;
+  flex-wrap: wrap;
+  /* width: 49px; */
+}
+
+span.particularDate {
+  width: 43px;
+}
+div#mainContainer {
+  background-color: aliceblue;
+  text-align: -webkit-center;
+}
