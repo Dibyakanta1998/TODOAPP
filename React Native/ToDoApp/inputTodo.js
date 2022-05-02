@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 import {useEffect, useState, useContext} from 'react';
 import {FAB} from 'react-native-elements';
 import {TodoContext} from './contextDo';
@@ -18,19 +20,37 @@ import {BottomSheet} from 'react-native-elements/dist/bottomSheet/BottomSheet';
 const Input = props => {
   const {list, setList} = useContext(TodoContext);
   const {navigation} = props;
-  
+
   const [text, setText] = useState('');
-  //const {title, id} = route.params;
+  
 
   const addition = () => {
-    setList(list => [
-      {
+    setList(list =>
+      list.concat({
         title: text,
         id: Date.now(),
-      },
-      ...list,
-    ]);
-    navigation.push('A');
+        checked: false,
+      }),
+    );
+  };
+
+  const apicall = () => {
+    axios
+      
+      .post('http://10.0.2.2:4500/todo1', {
+        title: text,
+        id: Date.now(),
+        checked: false,
+      })
+
+      .then(data => {
+        // console.log(data);
+        navigation.push('A');
+      })
+
+      .catch(e => {
+        console.log('error >>>>>>>>.   ', e);
+      });
   };
 
   return (
@@ -49,6 +69,7 @@ const Input = props => {
         style={style1.btn}
         onPress={() => {
           addition();
+          apicall();
         }}
       />
       <FAB
@@ -61,7 +82,7 @@ const Input = props => {
           navigation.goBack();
         }}
       />
-      {/* <Text>{text}</Text> */}
+    
     </View>
   );
 };

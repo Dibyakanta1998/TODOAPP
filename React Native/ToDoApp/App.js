@@ -10,7 +10,7 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useState, useContext} from 'react';
+import {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -37,14 +37,12 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   //
   const [list, setList] = useState([]);
-  
 
   return (
     <TodoContext.Provider
       value={{
         list,
         setList,
-        
       }}>
       {/* <ScrollView style={{flex:1}}> */}
       <View

@@ -1,7 +1,9 @@
 import React from 'react';
 import {useEffect, useState, useContext} from 'react';
 import {FAB} from 'react-native-elements';
+import CheckBox from '@react-native-community/checkbox';
 import {TodoContext} from './contextDo';
+import axios from 'axios';
 //import {useRoute} from '@react-navigation/native';
 import {
   SafeAreaView,
@@ -15,30 +17,84 @@ import {
 } from 'react-native';
 
 const Display = props => {
-  // console.log(>>>>>>>>>>>>props)
-
   const {list, setList} = useContext(TodoContext);
- // const {edit, setEdit} = useContext(TodoContext);
-  // const route = useRoute();
+  const urilist = {...list};
 
   const {navigation} = props;
 
   const del = id => {
     setList(pre => pre.filter(items => items?.id !== id));
   };
-  return (
-    <ScrollView>
-      <View>
-        <Text style={style2.head}>TASK</Text>
 
-        <FlatList
-          data={list}
-          renderItem={({item, index}) => (
+  useEffect(() => {
+    //  console.log('ggggggggg', list);
+    axios
+      // .post('http://127.0.0.1:4500/todo1', {...list})
+      .get('http://10.0.2.2:4500/todo')
+
+      .then(res => {
+        console.log('MY>>>>>>>>>>>>MY', res.data);
+        setList(res.data);
+      })
+
+      .catch(e => {
+        console.log('error >>>>>>>>.   ', e);
+      });
+  }, []);
+
+  const status = (val, item) => {
+    var data = [...list];
+    //  console.log('ddddddddddddd', data);
+    data = data.map(itm => {
+      if (itm === item) {
+        return {...itm, checked: val};
+      }
+      return {...itm};
+    });
+
+    setList(data);
+  };
+
+  const update1 = (val, item) => {
+    axios
+
+      .post('http://10.0.2.2:4500/todo2', {
+        checked: val,
+        title: item.title,
+      })
+
+      .then(data => {})
+
+      .catch(e => {
+        console.log('error >>>>>>>>.   ', e);
+      });
+  };
+  const delapi = id => {
+    axios
+
+      .post('http://10.0.2.2:4500/todo4', {
+        uid: id,
+      })
+
+      .then(data => {})
+
+      .catch(e => {
+        console.log('error >>>>>>>>.   ', e);
+      });
+  };
+
+  return (
+    <View style={{flex: 1}}>
+      <Text style={style2.head}>TASK</Text>
+
+      <FlatList
+        data={list}
+        renderItem={({item, index}) => (
+          <View>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <Text
                 style={style2.liststyle}
                 onPress={e => {
-                  console.log('vvvvvvvv', item);
                   navigation.navigate('C', {
                     name: item?.title,
                     uid: item?.id,
@@ -49,27 +105,38 @@ const Display = props => {
               <Text
                 style={style2.del}
                 onPress={e => {
-                  console.log('>>>>>>>>>>>>>>>', item?.id);
                   del(item.id);
+                  delapi(item.id);
                 }}>
                 D
               </Text>
-            </View>
-          )}
-          //    keyExtractor={item => item.index}
-        />
 
-        <FAB
-          visible={true}
-          title=">>>>"
-          color="crimson"
-          onPress={() => {
-            navigation.push('B');
-          }}
-          style={style2.btn}
-        />
-      </View>
-    </ScrollView>
+              <CheckBox
+                value={item.checked}
+                onValueChange={val => {
+                  status(val, item);
+                  update1(val, item);
+                }}
+                style={style2.check}
+              />
+            </View>
+            <Text>
+              {item.checked ? 'Status Completed' : 'Status Incompleted'}
+            </Text>
+          </View>
+        )}
+      />
+
+      <FAB
+        visible={true}
+        title=">>>>"
+        color="crimson"
+        onPress={() => {
+          navigation.push('B');
+        }}
+        style={style2.btn}
+      />
+    </View>
   );
 };
 const style2 = StyleSheet.create({
@@ -86,7 +153,7 @@ const style2 = StyleSheet.create({
     backgroundColor: 'white',
     color: 'blueviolet',
     margin: 10,
-    width: 300,
+    width: 250,
     padding: 20,
     borderRadius: 10,
   },
@@ -98,6 +165,16 @@ const style2 = StyleSheet.create({
     margin: 10,
     padding: 20,
     borderRadius: 10,
+  },
+  check: {
+    fontSize: 20,
+    backgroundColor: 'white',
+    color: 'blueviolet',
+    margin: 10,
+    padding: 20,
+    borderRadius: 10,
+    alignSelf: 'center',
+    
   },
 });
 

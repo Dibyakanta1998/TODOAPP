@@ -1,6 +1,7 @@
 import React, {useContext, useState, useRoute} from 'react';
 import {FAB} from 'react-native-elements';
 import {TodoContext} from './contextDo';
+import axios from 'axios';
 import {
   SafeAreaView,
   ScrollView,
@@ -14,7 +15,6 @@ import {
 import {ListItem} from 'react-native-elements/dist/list/ListItem';
 
 const Edit = props => {
-  //const route = useRoute();
   const {list, setList} = useContext(TodoContext);
   const [val, setVal] = useState();
   const {navigation, route} = props;
@@ -31,9 +31,25 @@ const Edit = props => {
       }),
     );
   };
+  const editapi = (val, name) => {
+    axios
+
+      .post('http://10.0.2.2:4500/todo3', {
+        title: val,
+        prevtitle: name,
+      })
+
+      .then(data => {
+        navigation.push('A');
+      })
+
+      .catch(e => {
+        console.log('error >>>>>>>>.   ', e);
+      });
+  };
+
   return (
     <View style={{flex: 1}}>
-      {/*  <Text>Edit</Text> */}
       <TextInput
         style={style3.input}
         defaultValue={name}
@@ -52,6 +68,7 @@ const Edit = props => {
         onPress={() => {
           navigation.push('A');
           update();
+          editapi(val, name);
         }}
       />
     </View>
