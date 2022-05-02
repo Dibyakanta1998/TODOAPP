@@ -1,1 +1,0 @@
-File system is a module in node js which is used using require method .
